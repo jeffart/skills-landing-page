@@ -1,0 +1,178 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - link "AutomateAI" [ref=e4] [cursor=pointer]:
+      - /url: "#"
+      - img [ref=e5]
+      - generic [ref=e8]: AutomateAI
+    - list [ref=e9]:
+      - listitem [ref=e10]:
+        - link "Services" [ref=e11] [cursor=pointer]:
+          - /url: "#services"
+      - listitem [ref=e12]:
+        - link "Testimonials" [ref=e13] [cursor=pointer]:
+          - /url: "#testimonials"
+      - listitem [ref=e14]:
+        - link "Contact" [ref=e15] [cursor=pointer]:
+          - /url: "#contact"
+    - link "Book a Call →" [ref=e17] [cursor=pointer]:
+      - /url: "#contact"
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]: AI Automation Agency
+      - heading "Automate Your Business — with AI" [level=1] [ref=e24]:
+        - generic [ref=e25]: Automate
+        - generic [ref=e26]: Your
+        - generic [ref=e27]: Business
+        - generic [ref=e28]: — with AI
+      - paragraph [ref=e29]: We help companies streamline their operations using cutting-edge AI automation — saving time, reducing costs, and scaling faster.
+      - generic [ref=e30]:
+        - link "Get Started →" [ref=e31] [cursor=pointer]:
+          - /url: "#services"
+        - link "Learn More" [ref=e32] [cursor=pointer]:
+          - /url: "#services"
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: 500+
+          - generic [ref=e36]: Automations
+        - generic [ref=e37]:
+          - generic [ref=e38]: 200+
+          - generic [ref=e39]: Clients
+        - generic [ref=e40]:
+          - generic [ref=e41]: 99.9%
+          - generic [ref=e42]: Uptime
+    - generic [ref=e46]:
+      - img [ref=e47]
+      - paragraph [ref=e51]: Image Coming Soon
+  - generic [ref=e52]:
+    - generic [ref=e54]:
+      - generic [ref=e55]: 500+ Automations Deployed◆
+      - generic [ref=e56]: 200+ Clients Worldwide◆
+      - generic [ref=e57]: 99.9% Uptime◆
+      - generic [ref=e58]: 3× Average ROI◆
+      - generic [ref=e59]: 60% Cost Reduction◆
+      - generic [ref=e60]: 24/7 AI Support◆
+      - generic [ref=e61]: 500+ Automations Deployed◆
+      - generic [ref=e62]: 200+ Clients Worldwide◆
+      - generic [ref=e63]: 99.9% Uptime◆
+      - generic [ref=e64]: 3× Average ROI◆
+      - generic [ref=e65]: 60% Cost Reduction◆
+      - generic [ref=e66]: 24/7 AI Support◆
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - generic [ref=e69]: "01"
+        - generic [ref=e70]:
+          - generic [ref=e71]: What We Offer
+          - heading "AI-Powered Solutions For Every Workflow" [level=2] [ref=e72]:
+            - text: AI-Powered Solutions
+            - text: For Every Workflow
+          - paragraph [ref=e73]: From simple task automation to complex AI integrations, we build solutions that fit your workflow — not the other way around.
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - img [ref=e77]
+            - generic [ref=e82]: "01"
+          - heading "Workflow Automation" [level=3] [ref=e83]
+          - paragraph [ref=e84]: Eliminate repetitive manual tasks with intelligent AI-driven workflows tailored to your business processes.
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - img [ref=e87]
+            - generic [ref=e92]: "02"
+          - heading "AI Chatbots" [level=3] [ref=e93]
+          - paragraph [ref=e94]: Deploy 24/7 customer support bots that understand context and resolve queries without human intervention.
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - img [ref=e97]
+            - generic [ref=e101]: "03"
+          - heading "Data Processing" [level=3] [ref=e102]
+          - paragraph [ref=e103]: Automatically extract, transform, and analyse data from any source to power smarter business decisions.
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - img [ref=e106]
+            - generic [ref=e109]: "04"
+          - heading "Email / CRM" [level=3] [ref=e110]
+          - paragraph [ref=e111]: Sync and automate your CRM and email pipelines so no lead or follow-up ever slips through the cracks.
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - img [ref=e114]
+            - generic [ref=e120]: "05"
+          - heading "Integrations" [level=3] [ref=e121]
+          - paragraph [ref=e122]: Connect your existing tools — Slack, Notion, HubSpot, and more — into a single automated ecosystem.
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - img [ref=e125]
+            - generic [ref=e126]: "06"
+          - heading "Reporting" [level=3] [ref=e127]
+          - paragraph [ref=e128]: Get real-time AI-generated reports and dashboards that surface the insights you actually need.
+  - generic [ref=e130]:
+    - generic [ref=e131]:
+      - generic [ref=e132]: "02"
+      - generic [ref=e133]:
+        - generic [ref=e134]: Client Results
+        - heading "Trusted by Teams That Move Fast" [level=2] [ref=e135]:
+          - text: Trusted by Teams
+          - text: That Move Fast
+        - paragraph [ref=e136]: Trusted by teams that move fast and automate smarter.
+    - generic [ref=e137]:
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: "\"AutomateAI cut our onboarding time by 60%. The workflow automation is genuinely plug-and-play — we were live in two days.\""
+        - generic [ref=e141]:
+          - generic [ref=e143]: SR
+          - generic [ref=e144]:
+            - paragraph [ref=e145]: Sophie R.
+            - paragraph [ref=e146]: COO, Nexlify
+        - text: "\""
+      - generic [ref=e147]:
+        - paragraph [ref=e148]: "\"The AI chatbot handles 80% of our support tickets without any human touch. Our team can finally focus on what matters.\""
+        - generic [ref=e150]:
+          - generic [ref=e152]: MK
+          - generic [ref=e153]:
+            - paragraph [ref=e154]: Marcus K.
+            - paragraph [ref=e155]: Founder, DataStack
+        - text: "\""
+      - generic [ref=e156]:
+        - paragraph [ref=e157]: "\"We integrated AutomateAI with our CRM in an afternoon. The reporting dashboards alone are worth every cent.\""
+        - generic [ref=e159]:
+          - generic [ref=e161]: AL
+          - generic [ref=e162]:
+            - paragraph [ref=e163]: Amara L.
+            - paragraph [ref=e164]: Head of Ops, Veldra
+        - text: "\""
+  - generic [ref=e168]:
+    - generic [ref=e169]: Get Started Today
+    - heading "Ready to Automate Your Workflow?" [level=2] [ref=e170]:
+      - text: Ready to Automate
+      - text: Your Workflow?
+    - paragraph [ref=e171]: Book a free 30-minute strategy call. We'll map out exactly which processes to automate first and what ROI you can expect.
+    - link "Book a Free Call →" [ref=e172] [cursor=pointer]:
+      - /url: mailto:hello@automateai.io
+  - contentinfo [ref=e173]:
+    - generic [ref=e174]:
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - img [ref=e177]
+          - generic [ref=e180]: AutomateAI
+        - paragraph [ref=e181]: AI-powered automation for modern businesses. Save time, cut costs, scale faster.
+      - generic [ref=e182]:
+        - paragraph [ref=e183]: Product
+        - list [ref=e184]:
+          - listitem [ref=e185]:
+            - link "Services" [ref=e186] [cursor=pointer]:
+              - /url: "#services"
+          - listitem [ref=e187]:
+            - link "Testimonials" [ref=e188] [cursor=pointer]:
+              - /url: "#testimonials"
+          - listitem [ref=e189]:
+            - link "Pricing" [ref=e190] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e191]:
+            - link "Documentation" [ref=e192] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e193]:
+        - paragraph [ref=e194]: Contact
+        - list [ref=e195]:
+          - listitem [ref=e196]: hello@automateai.io
+          - listitem [ref=e197]: +1 (555) 000-0000
+          - listitem [ref=e198]: San Francisco, CA
+    - generic [ref=e199]:
+      - generic [ref=e200]: © 2026 AutomateAI. All rights reserved.
+      - generic [ref=e201]: Built with precision

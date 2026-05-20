@@ -1,5 +1,195 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
-* {
-  scroll-behavior: smooth;
+/* ── Design tokens ───────────────────────────────── */
+:root {
+  --ink:      #06060A;
+  --ink-1:    #0C0C11;
+  --ink-2:    #121217;
+  --ink-3:    #191920;
+  --bdr:      #1E1E26;
+  --bdr-hi:   #2A2A34;
+  --amber:    #C5893A;
+  --amber-hi: #DDA050;
+  --amber-lo: #6B491A;
+  --cr:       #EDE8DC;
+  --cr-2:     #9D9890;
+  --mt:       #4E4E58;
+  --fd: 'Barlow Condensed', sans-serif;
+  --fm: 'IBM Plex Mono', monospace;
+}
+
+/* ── Base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cr);
+  font-family: var(--fm);
+  font-size: 13px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9000;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+::selection { background: var(--amber); color: var(--ink); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--amber-lo); }
+
+/* ── Keyframes ───────────────────────────────────── */
+@keyframes aUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes aTicker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Animation utilities ─────────────────────────── */
+.a-up { animation: aUp 0.65s ease both; }
+.d1 { animation-delay: 0.08s; }
+.d2 { animation-delay: 0.18s; }
+.d3 { animation-delay: 0.28s; }
+.d4 { animation-delay: 0.38s; }
+.d5 { animation-delay: 0.48s; }
+.d6 { animation-delay: 0.58s; }
+
+/* ── Label tag ───────────────────────────────────── */
+.label {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.label::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+
+/* ── Buttons ─────────────────────────────────────── */
+.btn {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.btn-solid {
+  background: var(--amber);
+  color: var(--ink);
+  border: 1px solid transparent;
+  font-weight: 400;
+}
+.btn-solid:hover { background: var(--amber-hi); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--cr-2);
+  border: 1px solid var(--bdr-hi);
+  font-weight: 300;
+}
+.btn-ghost:hover { border-color: var(--cr-2); color: var(--cr); }
+
+/* ── Nav links ───────────────────────────────────── */
+.nl {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mt);
+  text-decoration: none;
+  transition: color 0.15s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nl::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0; height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+.nl:hover { color: var(--cr); }
+.nl:hover::after { transform: scaleX(1); }
+
+/* ── Service cards ───────────────────────────────── */
+.scard {
+  background: var(--ink-2);
+  border: 1px solid var(--bdr);
+  padding: 28px 24px 26px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.22s, background 0.22s;
+}
+.scard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--amber), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.scard:hover { border-color: var(--bdr-hi); background: var(--ink-3); }
+.scard:hover::before { transform: scaleX(1); }
+
+/* ── Testimonial cards ───────────────────────────── */
+.tcard {
+  background: var(--ink-1);
+  border: 1px solid var(--bdr);
+  padding: 32px;
+  position: relative;
+}
+.tcard::after {
+  content: '"';
+  position: absolute;
+  top: 12px; right: 20px;
+  font-family: var(--fd);
+  font-size: 80px; font-weight: 800;
+  color: var(--bdr-hi);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Ticker ──────────────────────────────────────── */
+.ticker-inner {
+  animation: aTicker 40s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--bdr);
+  border-bottom: 1px solid var(--bdr);
+  background: var(--ink-1);
+  padding: 14px 0;
 }
