@@ -171,20 +171,17 @@ export default function Hero() {
             }}
           />
 
-          {/* ↓ Image placeholder — not modified */}
-          <div className="bg-[#1e2130] rounded-xl flex flex-col items-center justify-center h-72 md:h-80 border border-white/10">
-            <svg
-              className="w-10 h-10 text-gray-500 mb-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.5" />
-              <path d="M3 9l4-4 4 4 4-6 6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="8.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" />
-            </svg>
-            <p className="text-gray-500 text-sm">Image Coming Soon</p>
-          </div>
+          <img
+            src="/hero-team.jpg"
+            alt="Modern team working with AI dashboards"
+            style={{
+              width: '100%',
+              borderRadius: '0',
+              objectFit: 'cover',
+              height: '340px',
+              display: 'block',
+            }}
+          />
         </div>
       </div>
     </section>
