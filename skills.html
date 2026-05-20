@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code — Skills Registry</title>
+<style>
+  :root {
+    --bg: #080b10;
+    --bg-card: #0d1117;
+    --bg-card-hover: #131922;
+    --border: #1e2d3d;
+    --border-bright: #2a4060;
+    --accent: #00e5ff;
+    --accent-dim: rgba(0,229,255,0.12);
+    --accent-glow: rgba(0,229,255,0.35);
+    --amber: #ffb626;
+    --amber-dim: rgba(255,182,38,0.10);
+    --green: #39d353;
+    --green-dim: rgba(57,211,83,0.10);
+    --text: #c9d1d9;
+    --text-muted: #58677a;
+    --text-dim: #3d4f61;
+    --tag-bg: rgba(0,229,255,0.07);
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    --font-display: Georgia, 'Times New Roman', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,229,255,0.06) 0%, transparent 70%),
+      linear-gradient(rgba(0,229,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 64px 40px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  .header-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.1;
+    color: #e8edf2;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .header-title em {
+    font-style: normal;
+    color: var(--accent);
+    text-shadow: 0 0 40px var(--accent-glow);
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    text-shadow: 0 0 20px var(--accent-glow);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Search ── */
+  .search-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 40px;
+    background: linear-gradient(to bottom, rgba(8,11,16,0.97) 80%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .search-inner {
+    position: relative;
+    max-width: 520px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 14px;
+    pointer-events: none;
+    font-style: normal;
+  }
+
+  #search {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px 10px 40px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  #search::placeholder { color: var(--text-dim); }
+  #search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim), inset 0 0 12px rgba(0,229,255,0.03);
+  }
+
+  .search-count {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+
+  /* ── Main content ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  /* ── Section ── */
+  .section { margin-bottom: 64px; }
+  .section[data-hidden="true"] { display: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+  }
+
+  .section-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .installed .section-badge {
+    background: var(--amber-dim);
+    color: var(--amber);
+    border: 1px solid rgba(255,182,38,0.2);
+  }
+  .plugins .section-badge {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(57,211,83,0.2);
+  }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    cursor: default;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease both;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 8px 0 0 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .installed .card::before { background: var(--amber); }
+  .plugins .card::before { background: var(--green); }
+
+  .card:hover {
+    border-color: var(--border-bright);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,229,255,0.04);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card[data-hidden="true"] { display: none; }
+
+  .card-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 4px;
+    padding: 3px 9px;
+    display: inline-block;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .card:hover .card-name {
+    background: rgba(0,229,255,0.16);
+    border-color: rgba(0,229,255,0.3);
+  }
+
+  .card-source {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-source::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .installed .card-source::before { background: var(--amber); opacity: 0.6; }
+  .plugins .card-source::before { background: var(--green); opacity: 0.6; }
+
+  .card-desc {
+    font-size: 12px;
+    color: #8899aa;
+    line-height: 1.65;
+    font-family: var(--font-mono);
+  }
+
+  /* ── No results ── */
+  .no-results {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-dim);
+  }
+  .no-results.visible { display: block; }
+  .no-results-glyph {
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+    font-family: var(--font-mono);
+  }
+  .no-results-msg { font-size: 13px; }
+
+  /* ── Animations ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .site-header, .search-wrapper, .main { padding-left: 20px; padding-right: 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 32px; }
+    .stats-row { gap: 20px; }
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a5070; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="header-eyebrow">Claude Code · Skills Registry</p>
+  <h1 class="header-title">Every skill,<br><em>one place.</em></h1>
+  <p class="header-sub">Reference for all available Claude Code skills — installed packages and built-in plugin capabilities.</p>
+  <div class="stats-row">
+    <div class="stat">
+      <span class="stat-value" id="total-count">27</span>
+      <span class="stat-label">Total Skills</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" style="color:var(--amber);text-shadow:0 0 20px rgba(255,182,38,0.4)">3</span>
+      <span class="stat-label">Installed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" style="color:var(--green);text-shadow:0 0 20px rgba(57,211,83,0.3)">24</span>
+      <span class="stat-label">Built-in Plugins</span>
+    </div>
+  </div>
+</header>
+
+<div class="search-wrapper">
+  <div class="search-inner">
+    <span class="search-icon">⌕</span>
+    <input id="search" type="search" placeholder="Filter skills by name or description…" autocomplete="off" spellcheck="false">
+    <span class="search-count" id="search-count"></span>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- Installed -->
+  <section class="section installed" id="section-installed">
+    <div class="section-header">
+      <span class="section-title">Installed</span>
+      <span class="section-badge" id="badge-installed">3</span>
+    </div>
+    <div class="grid" id="grid-installed">
+      <div class="card" data-name="find-skills" data-desc="discover install agent skills help how do I find a skill capabilities extend claude">
+        <span class="card-name">find-skills</span>
+        <div class="card-source">vercel-labs/skills</div>
+        <p class="card-desc">Discover and install agent skills; helps answer "how do I do X" or "find a skill for X".</p>
+      </div>
+      <div class="card" data-name="frontend-design" data-desc="frontend interfaces web components pages applications websites landing pages dashboards production grade design">
+        <span class="card-name">frontend-design</span>
+        <div class="card-source">anthropics/skills</div>
+        <p class="card-desc">Create distinctive, production-grade frontend interfaces with high design quality.</p>
+      </div>
+      <div class="card" data-name="vercel-react-best-practices" data-desc="react best practices vercel conventions components hooks patterns">
+        <span class="card-name">vercel-react-best-practices</span>
+        <div class="card-source">vercel-labs/agent-skills</div>
+        <p class="card-desc">Best practices for building React applications following Vercel conventions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built-in Plugins -->
+  <section class="section plugins" id="section-plugins">
+    <div class="section-header">
+      <span class="section-title">Built-in Plugins</span>
+      <span class="section-badge" id="badge-plugins">24</span>
+    </div>
+    <div class="grid" id="grid-plugins">
+      <div class="card" data-name="update-config" data-desc="configure claude code harness settings.json automated hooks triggered by events behaviors">
+        <span class="card-name">update-config</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Configure the Claude Code harness via settings.json; set up automated hooks triggered by events.</p>
+      </div>
+      <div class="card" data-name="keybindings-help" data-desc="keyboard shortcuts rebind keys chord bindings keybindings.json customize hotkeys">
+        <span class="card-name">keybindings-help</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Customize keyboard shortcuts, rebind keys, add chord bindings to ~/.claude/keybindings.json.</p>
+      </div>
+      <div class="card" data-name="simplify" data-desc="review code reuse quality efficiency fix issues refactor cleanup">
+        <span class="card-name">simplify</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Review changed code for reuse, quality, and efficiency, then fix any issues found.</p>
+      </div>
+      <div class="card" data-name="loop" data-desc="recurring interval prompt slash command schedule repeat polling loop cron">
+        <span class="card-name">loop</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Run a prompt or slash command on a recurring interval (e.g. <code>/loop 5m /foo</code>, defaults to 10m).</p>
+      </div>
+      <div class="card" data-name="schedule" data-desc="scheduled remote agents cron recurring automated tasks triggers manage">
+        <span class="card-name">schedule</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Create, update, list, or run scheduled remote agents that execute on a cron schedule.</p>
+      </div>
+      <div class="card" data-name="claude-api" data-desc="claude api anthropic sdk build apps code imports triggers">
+        <span class="card-name">claude-api</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Build apps with the Claude API or Anthropic SDK; triggers when code imports <code>anthropic</code>.</p>
+      </div>
+      <div class="card" data-name="find-skills" data-desc="discover install agent skills capabilities extend claude questions">
+        <span class="card-name">find-skills</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Discover and install agent skills when users ask about capabilities or want to extend Claude.</p>
+      </div>
+      <div class="card" data-name="frontend-design" data-desc="frontend interfaces websites landing pages dashboards production grade design components pages applications">
+        <span class="card-name">frontend-design</span>
+        <div class="card-source">plugin · core</div>
+        <p class="card-desc">Create distinctive, production-grade frontend interfaces — websites, landing pages, dashboards.</p>
+      </div>
+      <div class="card" data-name="claude-api:mcp-builder" data-desc="mcp model context protocol servers external apis services tools llm integration">
+        <span class="card-name">claude-api:mcp-builder</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Guide for creating high-quality MCP servers to integrate external APIs or services.</p>
+      </div>
+      <div class="card" data-name="claude-api:pptx" data-desc="powerpoint pptx slides presentations create read parse manipulate pitch deck">
+        <span class="card-name">claude-api:pptx</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create, read, parse, or manipulate .pptx PowerPoint files.</p>
+      </div>
+      <div class="card" data-name="claude-api:pdf" data-desc="pdf create read extract split merge manipulate rotate watermark pages text tables">
+        <span class="card-name">claude-api:pdf</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create, read, extract, split, merge, or manipulate PDF files.</p>
+      </div>
+      <div class="card" data-name="claude-api:algorithmic-art" data-desc="generative art p5.js seeded randomness interactive flow fields particles algorithmic visual code">
+        <span class="card-name">claude-api:algorithmic-art</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create algorithmic / generative art using p5.js with seeded randomness and interactive parameter exploration.</p>
+      </div>
+      <div class="card" data-name="claude-api:docx" data-desc="word document docx create read edit manipulate formatting tables professional">
+        <span class="card-name">claude-api:docx</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create, read, edit, or manipulate Word .docx documents with formatting and structure.</p>
+      </div>
+      <div class="card" data-name="claude-api:brand-guidelines" data-desc="anthropic brand colors typography design standards official look feel artifacts">
+        <span class="card-name">claude-api:brand-guidelines</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Apply Anthropic's official brand colors and typography to artifacts and interfaces.</p>
+      </div>
+      <div class="card" data-name="claude-api:theme-factory" data-desc="themes styling slides docs html pages pre-set custom color fonts apply">
+        <span class="card-name">claude-api:theme-factory</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Style artifacts with themes (10 pre-set + custom); applies to slides, docs, and HTML pages.</p>
+      </div>
+      <div class="card" data-name="claude-api:xlsx" data-desc="spreadsheet excel xlsx xlsm csv tsv open read edit create columns formulas">
+        <span class="card-name">claude-api:xlsx</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Open, read, edit, or create spreadsheet files (.xlsx, .xlsm, .csv, .tsv).</p>
+      </div>
+      <div class="card" data-name="claude-api:internal-comms" data-desc="internal communications status reports leadership updates announcements messages write">
+        <span class="card-name">claude-api:internal-comms</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Write internal communications: status reports, leadership updates, and announcements.</p>
+      </div>
+      <div class="card" data-name="claude-api:canvas-design" data-desc="visual art poster design png pdf beautiful creative design philosophy static">
+        <span class="card-name">claude-api:canvas-design</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create beautiful visual art as .png and .pdf documents using design philosophy.</p>
+      </div>
+      <div class="card" data-name="claude-api:claude-api" data-desc="claude api anthropic sdk apps build debug optimize prompt caching model migration versions">
+        <span class="card-name">claude-api:claude-api</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Build, debug, and optimize Claude API / Anthropic SDK apps; handles model version migrations.</p>
+      </div>
+      <div class="card" data-name="claude-api:webapp-testing" data-desc="playwright testing local web applications ui verify debug screenshots browser logs frontend">
+        <span class="card-name">claude-api:webapp-testing</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Test local web applications using Playwright; verify UI, capture screenshots, view browser logs.</p>
+      </div>
+      <div class="card" data-name="claude-api:slack-gif-creator" data-desc="animated gifs slack optimized constraints validation animation create">
+        <span class="card-name">claude-api:slack-gif-creator</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create animated GIFs optimized for Slack with size/format constraints and validation tools.</p>
+      </div>
+      <div class="card" data-name="claude-api:web-artifacts-builder" data-desc="claude.ai html artifacts react tailwind shadcn ui multi-component state routing complex">
+        <span class="card-name">claude-api:web-artifacts-builder</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Build elaborate multi-component claude.ai HTML artifacts with React, Tailwind CSS, and shadcn/ui.</p>
+      </div>
+      <div class="card" data-name="claude-api:doc-coauthoring" data-desc="documentation co-authoring proposals technical specs decision docs structured workflow writing">
+        <span class="card-name">claude-api:doc-coauthoring</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Structured workflow for co-authoring documentation, proposals, and technical specs.</p>
+      </div>
+      <div class="card" data-name="claude-api:skill-creator" data-desc="create skills modify improve existing evals benchmark performance testing new skill">
+        <span class="card-name">claude-api:skill-creator</span>
+        <div class="card-source">plugin · claude-api</div>
+        <p class="card-desc">Create new skills, modify existing ones, run evals, and benchmark skill performance.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="no-results" id="no-results">
+    <div class="no-results-glyph">∅</div>
+    <p class="no-results-msg">No skills match your search.</p>
+  </div>
+
+</main>
+
+<script>
+  const input   = document.getElementById('search');
+  const counter = document.getElementById('search-count');
+  const noRes   = document.getElementById('no-results');
+
+  function update() {
+    const q = input.value.trim().toLowerCase();
+    let visible = 0;
+
+    document.querySelectorAll('.card').forEach(card => {
+      const name = card.dataset.name || '';
+      const desc = (card.dataset.desc || '') + ' ' + card.querySelector('.card-desc').textContent;
+      const match = !q || name.includes(q) || desc.toLowerCase().includes(q);
+      card.dataset.hidden = match ? 'false' : 'true';
+      if (match) visible++;
+    });
+
+    // Update section visibility & badges
+    ['installed', 'plugins'].forEach(id => {
+      const section = document.getElementById('section-' + id);
+      const badge   = document.getElementById('badge-' + id);
+      const cards   = section.querySelectorAll('.card:not([data-hidden="true"])');
+      section.dataset.hidden = cards.length === 0 ? 'true' : 'false';
+      badge.textContent = cards.length;
+    });
+
+    noRes.classList.toggle('visible', visible === 0);
+    counter.textContent = q ? visible + ' result' + (visible !== 1 ? 's' : '') : '';
+    document.getElementById('total-count').textContent = visible;
+  }
+
+  input.addEventListener('input', update);
+  update();
+</script>
+</body>
+</html>
